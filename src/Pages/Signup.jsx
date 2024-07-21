@@ -6,7 +6,7 @@ import { HiInformationCircle } from "react-icons/hi";
 
 
  
-const Signin = () => {
+const Signup = () => {
 
   const [formData,setFormData] = useState({});
   const [loading,setLoading] = useState(false);
@@ -19,13 +19,13 @@ const Signin = () => {
 
   const handleSubmit = async(e)=>{
     e.preventDefault();
-    if(!formData.email || !formData.password){
+    if(!formData.username || !formData.email || !formData.password){
         return setErrorMessage("please fill out the fields");
     }
     try {
         setLoading(true)
         setErrorMessage(null)
-      const response = await fetch("http://localhost:5000/api/auth/login-user", {
+      const response = await fetch("http://localhost:5000/api/auth/register-user", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -38,7 +38,7 @@ const Signin = () => {
         return setErrorMessage(data.message)
       }
       if(response.ok){
-        navigate('/')
+        navigate('/signin')
       }
       
     } catch (error) {
@@ -61,13 +61,22 @@ const Signin = () => {
           </div>
 
           <p className="text-sm mt-6  ">
-            You can sign In your Email and password or you can use the Google
-          
+            You can sign Up your Email and password or you can use the Google
+            
           </p>
         </div>
 
         <div className="flex-1">
           <form className="flex flex-col gap-4 " onSubmit={handleSubmit}>
+            <div>
+              <Label value="Username" />
+              <TextInput
+                onChange={handlechage}
+                type="text"
+                placeholder="Enter Your User Name"
+                id="username"
+              />
+            </div>
 
             <div>
               <Label value="Email" />
@@ -94,14 +103,14 @@ const Signin = () => {
               </>
               )
             
-            : (' Sign In')}
+            : (' Sign Up')}
 
             </Button>
           </form>
 
           <div className="flex gap-2 text-sm mt-6" >
-          <span>Don't Have An Account ?</span>
-          <Link to='/signup' className="text-blue-500" >Sign Up</Link>
+          <span>Already Have An Account ?</span>
+          <Link to='/signin' className="text-blue-500" >Sign In</Link>
           </div>
           {errorMessage && (
              <Alert color="failure" icon={HiInformationCircle} className="mt-5">
@@ -114,7 +123,4 @@ const Signin = () => {
   );
 };
 
-export default Signin;
-
-
-
+export default Signup;

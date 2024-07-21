@@ -1,13 +1,13 @@
 import React from 'react'
-import { Button } from "flowbite-react";
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './Pages/Home';
 import About from './Pages/About';
 import Dashbord from './Pages/Dashbord';
 import Blogs from './Pages/Blogs';
 import Signin from './Pages/Signin';
-import Sinup from './Pages/Sinup';
+import Signup from './Pages/Signup';
 import Header from './Components/Header';
+import FooterCom from './Components/FooterCom';
 
 const App = () => {
   return (
@@ -19,8 +19,9 @@ const App = () => {
   <Route path='/dashbord' element={<Dashbord/>}/>
   <Route path='/blogs' element={<Blogs/>}/>
   <Route path='/signin' element={<Signin/>}/>
-  <Route path='/sigup' element={<Sinup/>}/>
+  <Route path='/signup' element={<Signup/>}/>
   </Routes>
+  <FooterCom/>
   </BrowserRouter>
   )
 }

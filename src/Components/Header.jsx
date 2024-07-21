@@ -46,9 +46,9 @@ const Header = () => {
         >
           <FaMoon />
         </Button>
-        <Link to="/sigup">
+        <Link to="/signin">
           <Button gradientDuoTone="purpleToPink" outline pill>
-          Sign Up
+          SignIn
           </Button>
         </Link>
       </div>
