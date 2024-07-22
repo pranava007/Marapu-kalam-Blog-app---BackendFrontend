@@ -2,6 +2,10 @@ import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { HiInformationCircle } from "react-icons/hi";
+import { useDispatch, useSelector } from "react-redux";
+import { sigInFailure, signInStart, signInSuccess } from "../Redux/Slice/UserSlice";
+import OAuth from "../Components/OAuth";
+
 
 
 
@@ -9,8 +13,8 @@ import { HiInformationCircle } from "react-icons/hi";
 const Signin = () => {
 
   const [formData,setFormData] = useState({});
-  const [loading,setLoading] = useState(false);
-  const [errorMessage,setErrorMessage] = useState(null);
+  const dispatche = useDispatch();
+  const {loading,error:errorMessage} = useSelector((state)=>state.user)
   const navigate = useNavigate()
 
   const handlechage = (e)=>{
@@ -20,11 +24,10 @@ const Signin = () => {
   const handleSubmit = async(e)=>{
     e.preventDefault();
     if(!formData.email || !formData.password){
-        return setErrorMessage("please fill out the fields");
+        return dispatche(sigInFailure("please fill out the fields"));
     }
     try {
-        setLoading(true)
-        setErrorMessage(null)
+      dispatche(signInStart())
       const response = await fetch("http://localhost:5000/api/auth/login-user", {
         method: 'POST',
         headers: {
@@ -35,15 +38,15 @@ const Signin = () => {
       const data = await response.json()
 
       if(data.success === false){
-        return setErrorMessage(data.message)
+        return dispatche(sigInFailure((data.message)))
       }
       if(response.ok){
+        dispatche(signInSuccess(data))
         navigate('/')
       }
       
     } catch (error) {
-     setErrorMessage(error.message)
-     setLoading(false)
+     dispatche(sigInFailure((error.message)))
       
     }
 
@@ -97,6 +100,7 @@ const Signin = () => {
             : (' Sign In')}
 
             </Button>
+            <OAuth/>
           </form>
 
           <div className="flex gap-2 text-sm mt-6" >
