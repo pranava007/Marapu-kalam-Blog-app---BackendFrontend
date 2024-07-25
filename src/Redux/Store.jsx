@@ -4,12 +4,14 @@ import storage from "redux-persist/lib/storage";
 import { persistReducer } from "redux-persist";
 import persistStore from "redux-persist/es/persistStore";
 import themeReducer from "./Slice/ThemeSlice";
+import imageUploadReducer from "./Slice/imageUploadSlice";
 
 
 
 export const rootReducer = combineReducers({
     user:UserReducer,
     theme:themeReducer,
+    imageUpload: imageUploadReducer,
 })
 
 const persistConfig = {
