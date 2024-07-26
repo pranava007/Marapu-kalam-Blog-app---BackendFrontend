@@ -41,6 +41,7 @@ const Signin = () => {
         return dispatche(sigInFailure((data.message)))
       }
       if(response.ok){
+        localStorage.setItem('Token',data.token)
         dispatche(signInSuccess(data))
         navigate('/')
       }

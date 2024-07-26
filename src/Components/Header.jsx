@@ -3,20 +3,26 @@ import React from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toggleTheme } from "../Redux/Slice/ThemeSlice";
-
+import { signOutSuccess } from "../Redux/Slice/UserSlice";
 
 
 
 const Header = () => {
 
   const path = useLocation().pathname;
+  const navigate = useNavigate()
   // after login store the user for currentuser
   const {currentuser} = useSelector((state)=>state.user)
   const {theme} = useSelector((state)=>state.theme)
   const dispatch = useDispatch()
 
+  const handleSignout=()=>{
+    dispatch(signOutSuccess())
+    localStorage.removeItem("Token")
+    navigate('/signin')
+  }
 
   return (
     <Navbar className="border-b-2">
@@ -66,7 +72,7 @@ const Header = () => {
           <Dropdown.Item>profile</Dropdown.Item>
           </Link>
           <DropdownDivider/>
-          <Dropdown.Item>Sign Out</Dropdown.Item>
+          <Dropdown.Item onClick={handleSignout} >Sign Out</Dropdown.Item>
         </Dropdown>
       ) : (
         <Link to="/signin">
