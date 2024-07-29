@@ -254,7 +254,7 @@ const DashboardProfile = () => {
           {loading ? "loading..." : "Update"}
         </Button>
         {/* {console.log(currentuser)} */}
-        {currentuser.rest.isAdmin && (
+        {currentuser.rest.isUser && (
           <Link to="/create-post">
             <Button
               type="submit"

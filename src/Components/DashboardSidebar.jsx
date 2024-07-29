@@ -39,7 +39,7 @@ const DashboardSidebar = () => {
               Profile
             </Sidebar.Item>
           </Link>
-          {currentuser.rest.isAdmin && (
+          {currentuser.rest.isUser && (
             <Link to="/create-post">
                  <Sidebar.Item
               active={tab === "post"}
