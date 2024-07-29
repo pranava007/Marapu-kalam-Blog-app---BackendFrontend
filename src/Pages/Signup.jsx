@@ -26,7 +26,7 @@ const Signup = () => {
     try {
         setLoading(true)
         setErrorMessage(null)
-      const response = await fetch("http://localhost:5000/api/auth/register-user", {
+      const response = await fetch("https://marapu-kalam-blog-app-backend.onrender.com/api/auth/register-user", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

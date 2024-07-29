@@ -120,7 +120,7 @@ const DashboardProfile = () => {
     try {
       dispatch(updateStart());
       const response = await fetch(
-        `http://localhost:5000/api/user/update/${currentuser.rest._id}`,
+        `https://marapu-kalam-blog-app-backend.onrender.com/api/user/update/${currentuser.rest._id}`,
         {
           method: "PUT",
           headers: {
@@ -155,7 +155,7 @@ const DashboardProfile = () => {
     setshowModal(false);
     try {
       const response = await fetch(
-        `http://localhost:5000/api/user/delete/${currentuser.rest._id}`,
+        `https://marapu-kalam-blog-app-backend.onrender.com/api/user/delete/${currentuser.rest._id}`,
         {
           method: "DELETE",
           headers: {

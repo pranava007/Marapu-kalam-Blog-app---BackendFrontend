@@ -68,7 +68,7 @@ const CreatePost = () => {
       // to convert html to content
       const strippedContent = formData.content.replace(/<[^>]+>/g, "");
       const response = await fetch(
-        'http://localhost:5000/api/post/createpost',
+        'https://marapu-kalam-blog-app-backend.onrender.com/api/post/createpost',
         {
           method: "POST",
           headers: {
