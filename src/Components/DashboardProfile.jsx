@@ -29,11 +29,11 @@ import {
 } from "../Redux/Slice/UserSlice";
 import { Modal } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
-
+import { Link } from "react-router-dom";
 
 const DashboardProfile = () => {
   const dispatch = useDispatch();
-  const { currentuser,loading,error } = useSelector((state) => state.user);
+  const { currentuser, loading, error } = useSelector((state) => state.user);
   const {
     imageFile,
     imageFileUrl,
@@ -46,9 +46,9 @@ const DashboardProfile = () => {
   const [updateUserSuccess, setUpdateUserSuccess] = useState(null);
   const [updateUserError, setUpdateUserError] = useState(null);
 
-// accout delete state toggle
+  // accout delete state toggle
 
-const [showModal,setshowModal]=useState(false)
+  const [showModal, setshowModal] = useState(false);
 
   const filePickerRef = useRef();
 
@@ -104,7 +104,7 @@ const [showModal,setshowModal]=useState(false)
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
-//updateing user
+  //updateing user
   const handleSubmit = async (e) => {
     e.preventDefault();
     setUpdateUserError(null);
@@ -145,39 +145,36 @@ const [showModal,setshowModal]=useState(false)
   };
 
   //user signout
-  const handleSignout =()=>{
-    dispatch(signOutSuccess())
-    localStorage.removeItem("Token")
-  }
+  const handleSignout = () => {
+    dispatch(signOutSuccess());
+    localStorage.removeItem("Token");
+  };
 
-  // delete user 
-  const  handleDelete = async()=>{
-
-    setshowModal(false)
+  // delete user
+  const handleDelete = async () => {
+    setshowModal(false);
     try {
-      const response = await fetch(`http://localhost:5000/api/user/delete/${currentuser.rest._id}`,{
-        method:'DELETE',
-        headers:{
-          "Content-Type": "application/json",
-          token: localStorage.getItem("Token"),
+      const response = await fetch(
+        `http://localhost:5000/api/user/delete/${currentuser.rest._id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            token: localStorage.getItem("Token"),
+          },
         }
-      })
+      );
 
       const data = await response.json();
-      if(!response.ok){
-        dispatch(deleteUserFilure(data.message))
+      if (!response.ok) {
+        dispatch(deleteUserFilure(data.message));
+      } else {
+        dispatch(deleteUserSuccess(data));
       }
-      else{
-        dispatch(deleteUserSuccess(data))
-      }
-
     } catch (error) {
-      dispatch(deleteUserFilure(error.message))
+      dispatch(deleteUserFilure(error.message));
     }
-
-
-  }
-
+  };
 
   return (
     <div className="max-w-lg mx-auto p-4 w-full ">
@@ -249,13 +246,33 @@ const [showModal,setshowModal]=useState(false)
           placeholder="********"
           onChange={handleChange}
         />
-        <Button type="submit" gradientDuoTone="purpleToPink" disabled={loading || imageFileUploading}>
-          {loading ? 'loading...':'Update'}
+        <Button
+          type="submit"
+          gradientDuoTone="purpleToPink"
+          disabled={loading || imageFileUploading}
+        >
+          {loading ? "loading..." : "Update"}
         </Button>
+        {/* {console.log(currentuser)} */}
+        {currentuser.rest.isAdmin && (
+          <Link to="/create-post">
+            <Button
+              type="submit"
+              gradientDuoTone="purpleToPink"
+              className="w-full"
+            >
+              Create Post
+            </Button>
+          </Link>
+        )}
       </form>
       <div className="text-red-600 flex justify-between mt-5">
-        <span className="cursor-pointer" onClick={()=>setshowModal(true)} >Delete Account</span>
-        <span className="cursor-pointer" onClick={handleSignout}>Sign Out</span>
+        <span className="cursor-pointer" onClick={() => setshowModal(true)}>
+          Delete Account
+        </span>
+        <span className="cursor-pointer" onClick={handleSignout}>
+          Sign Out
+        </span>
       </div>
       {updateUserSuccess && (
         <Alert color="success" icon={HiInformationCircle} className="mt-5">
@@ -269,31 +286,36 @@ const [showModal,setshowModal]=useState(false)
           {updateUserError}
         </Alert>
       )}
-      {
-        error && (
-          <Alert color="failure" icon={HiInformationCircle} className="mt-5">
+      {error && (
+        <Alert color="failure" icon={HiInformationCircle} className="mt-5">
           <span className="font-medium me-2">🥴OOPS!</span>
           {error}
         </Alert>
-        )
-      }
-      <Modal show={showModal} onClose={()=>setshowModal(false)} popup size='md' >
-         
-         <Modal.Header/>
-         
-         <Modal.Body>
-                    
-                    <div className="text-center" >
-                         <HiOutlineExclamationCircle className="h-14 text-gray-500 dark:text-gray-200 mb-4 mx-auto"/>
-                         <h3 className="mb-5 text-lg  text-gray-500 dark:text-gray-200">Are you sure you want to delete this Account ?</h3>
-                         <div className="flex justify-center gap-4" >
-                            <Button color='failure' onClick={handleDelete} >Yes, I'm sure</Button>
-                            <Button color='gray' onClick={()=>setshowModal(false)}>No,Changed My Mind</Button>
-                         </div>
-                    </div>
-         </Modal.Body>
+      )}
+      <Modal
+        show={showModal}
+        onClose={() => setshowModal(false)}
+        popup
+        size="md"
+      >
+        <Modal.Header />
 
-
+        <Modal.Body>
+          <div className="text-center">
+            <HiOutlineExclamationCircle className="h-14 text-gray-500 dark:text-gray-200 mb-4 mx-auto" />
+            <h3 className="mb-5 text-lg  text-gray-500 dark:text-gray-200">
+              Are you sure you want to delete this Account ?
+            </h3>
+            <div className="flex justify-center gap-4">
+              <Button color="failure" onClick={handleDelete}>
+                Yes, I'm sure
+              </Button>
+              <Button color="gray" onClick={() => setshowModal(false)}>
+                No,Changed My Mind
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
       </Modal>
     </div>
   );
