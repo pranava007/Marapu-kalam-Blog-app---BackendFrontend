@@ -66,7 +66,7 @@ const CreatePost = () => {
     e.preventDefault();
     try {
       // to convert html to content
-      const strippedContent = formData.content.replace(/<[^>]+>/g, "");
+      const strippedContent = formData.content.replace(/<[^>]+>/g,"");
       const response = await fetch(
         'https://marapu-kalam-blog-app-backend.onrender.com/api/post/createpost',
         {
