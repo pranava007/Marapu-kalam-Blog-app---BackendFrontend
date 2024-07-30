@@ -15,10 +15,10 @@ const Blogs = () => {
   };
 
   return (
-    <div>
+    <div className="grid grid-cols-4 gap-4 ">
       {bloges.map((ele, index) => {
         return (
-          <div key={index}>
+          <div key={index} className="  m-10 " >
             <Card
               className="max-w-sm"
               imgAlt="Meaningful alt text for an image that is not purely decorative"
